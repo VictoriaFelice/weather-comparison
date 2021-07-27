@@ -6,7 +6,7 @@
 You have to specify the state in this case. Example: 'http://api.openweathermap.org/data/2.5/weather?q=Madison,IN,US&appid={API key}'
 - For temperature in Fahrenheit use &units=imperial. For temperature in Celsius use &units=metric. Default is in Kelvin.
 - OpenWeather uses UTC time zone for all API calls.
-- You can compare current weather in up to 5 cities at a time.
+- You can compare current weather in up to 5 cities at a time. Cities will be sorted from warmest to coldest in the output.
 
 ### Instructions:
 1. Install 'requests' module. On Windows:
