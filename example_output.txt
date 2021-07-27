@@ -1,0 +1,44 @@
+****************************************************************************************************
+                     Welcome to the "Current City Weather Comparison" program!
+****************************************************************************************************
+Enter [City,2-letter Country Code] i.e Venice,IT
+For US locations, enter [City,State,US] i.e Louisville,KY,US: Moscow,RU
+Enter 2nd city in the same format. You can compare up to 5 cities: Paris,FR
+Enter 3rd city (or type "d" if you are done entering): Louisville,KY,US
+Enter 4th city (or type "d" if you are done entering): Between,WA,US
+Enter 5th city (or type "d" if you are done entering): London,UK
+====================================================================================================
+Currently, the warmest city is Louisville,KY,US.
+Coldest city is Moscow,RU.
+====================================================================================================
+LOUISVILLE US
+Current local time: Monday, July 26 2021  09:40PM
+Temperature: 76.82
+Weather description: clear sky 🙂
+Humidity: 75%
+----------------------------------------------------------------------------------------------------
+BETWEEN US
+Current local time: Monday, July 26 2021  09:40PM
+Temperature: 76.03
+Weather description: thunderstorm with heavy rain ⚡
+Humidity: 95%
+----------------------------------------------------------------------------------------------------
+LONDON GB
+Current local time: Tuesday, July 27 2021  02:40AM
+Temperature: 64.29
+Weather description: overcast clouds ☁
+Humidity: 84%
+----------------------------------------------------------------------------------------------------
+PARIS FR
+Current local time: Tuesday, July 27 2021  03:40AM
+Temperature: 62.78
+Weather description: clear sky 🙂
+Humidity: 91%
+----------------------------------------------------------------------------------------------------
+MOSCOW RU
+Current local time: Tuesday, July 27 2021  04:40AM
+Temperature: 61.84
+Weather description: scattered clouds ☁
+Humidity: 62%
+----------------------------------------------------------------------------------------------------
+Do you want to enter new cities? Type 'y' to continue or 'q' to quit:

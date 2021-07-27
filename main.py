@@ -5,30 +5,37 @@
 # 4.Create and call at least 3 functions or methods, at least one of which must return a value that is used somewhere else in your code.
 # 5.Connect to an external/3rd party API and read data into your app.
 
-# Current Weather Comparison project
-# refactor later:
-# 1. (done) use loop for entering up to 5 cities and append
-# 2. add basic input validation (empty input, no comma, country validation)
-# 3. create build_url() function
-# 4. (done) validate api response in get_current_weather(). Output error messages
-# 5. (done) create a CityWeatherData class with attributes like temperature, weather_description, etc
-# 6. (done) add sorting cities by warmest temperature
-# 7. add weather emoji for weather_descriptions (print("\U00002600"))
+# later:
+# 1. add basic input validation (empty input, no comma, country validation)
+# 2. add weather emoji for weather_descriptions (print("\U00002600"))
 
 import string
 import requests
-import pycountry
+
 from city import CityWeather
 from keys import myWeatherApiKey
-from datetime import datetime as dt
 
-welcome_message = 'Welcome to the "Current City Weather Comparison" program!'
-decor_str = '*' * len(welcome_message)
-print(decor_str + '\n' + welcome_message + "\n" + decor_str)
+decor_length = 100
+
+
+def print_decor(element: string, length: int):
+    print(element * length)
+
+
+def print_welcome_message():
+    welcome_message = 'Welcome to the "Current City Weather Comparison" program!'
+    spacing = ' ' * int(((decor_length - len(welcome_message)) / 2))
+    print(len(spacing))
+    print_decor('*', decor_length)
+    print(spacing + welcome_message)
+    print_decor('*', decor_length)
+
+
+print_welcome_message()
 
 
 # https://openweathermap.org/current Access current weather data for any location on Earth.
-# Api call by city name and 2-letter country code. Example: 'http://api.openweathermap.org/data/2.5/weather?q=London,UK&appid={API key}'
+# Api call by city name and 2-letter country code. Example: 'http://api.openweathermap.org/data/2.5/weather?q=,FR&appid={API key}'
 # For US locations, you can call by city name, state code, and country code.
 # i.e there are 27 places named Madison in US. You have to specify the state in this case.
 # Example: 'http://api.openweathermap.org/data/2.5/weather?q=Madison,IN,US&appid={API key}'
@@ -40,36 +47,15 @@ def get_current_weather(city_country: string):
                                                                                              myWeatherApiKey)).json()
     response_code = response['cod']
     if response_code != 200:
-        if 'city' in response['message'].lower():
+        print('\n!! ERROR')
+        if 'invalid' in response['message'].lower():
+            print(response['message'])
+            exit()
+        elif 'city' in response['message'].lower():
             print(city_country + ': ', end='')
         print(response['message'])
-        exit()
-
+        return None
     return response
-
-
-def validate_country_code(city_input: string):
-    city_list = city_input.split(',')
-    if len(city_list) == 1:
-        print('Please, enter city and 2-letter country code separated by comma. i.e. Paris,FR')
-        return False
-    elif len(city_list) == 2:
-        return is_valid_country_code(city_list[1])
-    elif len(city_list) == 3:
-        return is_valid_country_code(city_list[2])
-    else:
-        print('Invalid format')
-        return False
-
-
-def is_valid_country_code(code):
-    # strip whitespace from the beginning and end
-    country_code = code.strip()
-    get_country_data = pycountry.countries.get(alpha_2=country_code)
-    if get_country_data is None:
-        print("'{}' is invalid 2-letter country code".format(country_code))
-        return False
-    return True
 
 
 def add_suffix(i):
@@ -79,60 +65,91 @@ def add_suffix(i):
         return str(i) + 'th'
 
 
-# start with empty list of cites. Then populate list with user city inputs
-cities = []
-city = ""
-MAX_CITIES = 5
-number_of_cities = 1
-while number_of_cities <= MAX_CITIES and city != 'd':
-    if number_of_cities == 1:
-        city = input('Enter 1st city you want to compare (city,2-letter country code) i.e Venice,IT: ')
-    elif number_of_cities == 2:
-        city = input('Enter 2nd city. You can compare up to 5: ')
-    else:
-        city = input('Enter {} city (or type "d" if you are done entering): '.format(add_suffix(number_of_cities)))
-    # add input validation
-    if city.lower() != 'd':
-        cities.append(city)
-        number_of_cities += 1
-
-# create current weather dictionary where key would be city and value would be its weather returned from API call
-current_weather_dict = {}
-for city in cities:
-    city_data = get_current_weather(city)
-    city_weather = CityWeather(
-        city=city,
-        timezone=city_data['timezone'],
-        temperature=city_data['main']['temp'],
-        weather_description=city_data['weather'][0]['description'],
-        humidity=city_data['main']['humidity']
-    )
-    current_weather_dict[city] = city_weather
+# create current weather dictionary where key is city and value is CityWeather class instance
+def create_current_weather_dictionary(cites_with_countries):
+    current_weather_dict = {}
+    for city_country in cites_with_countries:
+        response = get_current_weather(city_country)
+        if response is not None:
+            city_weather = CityWeather(
+                city=response['name'],
+                country_code=response['sys']['country'],
+                timezone=response['timezone'],
+                temperature=response['main']['temp'],
+                weather_description=response['weather'][0]['description'],
+                humidity=response['main']['humidity']
+            )
+            current_weather_dict[city_country] = city_weather
+    return current_weather_dict
 
 
-# OpenWeather uses UTC time zone for all API calls. Display current local time
-def get_current_local_time(city_tz: int):
-    current_utc_time_in_seconds = dt.utcnow().timestamp()
-    local_time_in_seconds = current_utc_time_in_seconds + city_tz
-    formatted_date = dt.fromtimestamp(local_time_in_seconds).strftime("%A, %B %d %Y  %I:%M")
-    return formatted_date
+# sort cities by the warmest current temperature
+def sort_cities_by_temp(current_weather_dict):
+    sorted_cities = sorted(current_weather_dict, key=lambda c: current_weather_dict[c].temperature, reverse=True)
+    sorted_city_weather_dict = {}
+    for cty in sorted_cities:
+        sorted_city_weather_dict[cty] = current_weather_dict[cty]
+    return sorted_city_weather_dict
 
 
-def print_city_weather(city_info: CityWeather):
-    print(city_info.city)
-    print('Current local time: {}'.format(get_current_local_time(city_info.timezone)))
-    print('Temperature: {}'.format(city_info.temperature))
-    print('Weather description: {}'.format(city_info.weather_description))
-    print('Humidity: {}%'.format(city_info.humidity))
+def output_results(sorted_city_weather_dict):
+    print_decor('=', decor_length)
+    print("Currently, the warmest city is {}. \nColdest city is {}.".format(next(iter(sorted_city_weather_dict)), (next(reversed(sorted_city_weather_dict)))))
+    print_decor('=', decor_length)
+    for cty in sorted_city_weather_dict:
+        CityWeather.print_city_weather(sorted_city_weather_dict[cty])
+        print('-' * decor_length)
 
 
-# sort cities by warmest current temperature
-sorted_cities = sorted(current_weather_dict, key=lambda c: current_weather_dict[c].temperature, reverse=True)
-sorted_city_weather_dict = {}
-for cty in sorted_cities:
-    sorted_city_weather_dict[cty] = current_weather_dict[cty]
+# master loop
+while True:
+    cities = []
+    city = ""
+    max_cities = 5
+    number_of_cities = 1
+    while number_of_cities <= max_cities and city != 'd' and city != 'q':
+        if number_of_cities == 1:
+            city = input(
+                "Enter [City,2-letter Country Code] i.e Venice,IT\nFor US locations, enter [City,State,US] i.e Louisville,KY,US: ")
+        elif number_of_cities == 2:
+            city = input('Enter 2nd city in the same format. You can compare up to 5 cities: ')
+        else:
+            city = input('Enter {} city (or type "d" if you are done entering): '.format(add_suffix(number_of_cities)))
+        # add input validation later
+        if city.lower() != 'd':
+            cities.append(city)
+            number_of_cities += 1
 
-# output the results
-for city in sorted_city_weather_dict:
-    print('-' * len(welcome_message))
-    print_city_weather(sorted_city_weather_dict[city])
+    weather = create_current_weather_dictionary(cities)
+    if weather:
+        sorted_city_weather = sort_cities_by_temp(weather)
+        output_results(sorted_city_weather)
+
+    yes_no = input("Do you want to enter new cities? Type 'y' to continue or 'q' to quit: ")
+    if 'q' in yes_no.lower():
+        exit()
+    print()
+
+# implement later
+# def validate_country_code(city_input: string):
+#     city_list = city_input.split(',')
+#     if len(city_list) == 1:
+#         print('Please, enter city and 2-letter country code separated by comma. i.e. Paris,FR')
+#         return False
+#     elif len(city_list) == 2:
+#         return is_valid_country_code(city_list[1])
+#     elif len(city_list) == 3:
+#         return is_valid_country_code(city_list[2])
+#     else:
+#         print('Invalid format')
+#         return False
+#
+#
+# def is_valid_country_code(code):
+#     # strip whitespace from the beginning and end
+#     country_code = code.strip()
+#     get_country_data = pycountry.countries.get(alpha_2=country_code)
+#     if get_country_data is None:
+#         print("'{}' is invalid 2-letter country code".format(country_code))
+#         return False
+#     return True
