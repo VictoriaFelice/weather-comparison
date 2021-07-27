@@ -1,14 +1,3 @@
-# CodeLouisville Python Project Requirements Fulfilled
-# 1.Implement a “master loop” console application where the user can repeatedly enter commands/perform actions.
-# 2.Create a class, then create at least one object of that class and populate it with data.
-# 3.Create a dictionary or list, populate it with several values, retrieve at least one value, and use it in your program.
-# 4.Create and call at least 3 functions or methods, at least one of which must return a value that is used somewhere else in your code.
-# 5.Connect to an external/3rd party API and read data into your app.
-
-# later:
-# 1. add basic input validation (empty input, no comma, country validation)
-# 2. add weather emoji for weather_descriptions (print("\U00002600"))
-
 import string
 import requests
 
@@ -34,13 +23,6 @@ def print_welcome_message():
 print_welcome_message()
 
 
-# https://openweathermap.org/current Access current weather data for any location on Earth.
-# Api call by city name and 2-letter country code. Example: 'http://api.openweathermap.org/data/2.5/weather?q=,FR&appid={API key}'
-# For US locations, you can call by city name, state code, and country code.
-# i.e there are 27 places named Madison in US. You have to specify the state in this case.
-# Example: 'http://api.openweathermap.org/data/2.5/weather?q=Madison,IN,US&appid={API key}'
-# For temperature in Fahrenheit use &units=imperial. For temperature in Celsius use &units=metric. Default is in Kelvin.
-# OpenWeather uses UTC time zone for all API calls.
 def get_current_weather(city_country: string):
     response = requests.get(
         'http://api.openweathermap.org/data/2.5/weather?q={}&appid={}&units=imperial'.format(city_country,
