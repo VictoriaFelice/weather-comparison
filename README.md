@@ -9,9 +9,12 @@ You have to specify the state in this case. Example: 'http://api.openweathermap.
 - You can compare current weather in up to 5 cities at a time.
 
 ### Instructions:
-1. pip3 install -r requirements.txt
+1. Install 'requests' module. On Windows:
+> python -m pip install requests
 2. Add your API key to keys.py. To get your API key, go to https://.org. It is FREE, but you need to register.
-3. Run main.py file and follow prompts.
+3. Run main.py file. Enter cities in the following format, i.e.,
+   Paris,FR [City,2-letter Country Code]
+   Louisville,KY,US [City,2-letter State Code,US] -> for US locations
 
 ### File Descriptions
 1. main.py. Main file that you need to run.

@@ -1,4 +1,3 @@
-import string
 import requests
 
 from city import CityWeather
@@ -7,7 +6,7 @@ from keys import myWeatherApiKey
 decor_length = 100
 
 
-def print_decor(element: string, length: int):
+def print_decor(element: str, length: int):
     print(element * length)
 
 
@@ -23,7 +22,7 @@ def print_welcome_message():
 print_welcome_message()
 
 
-def get_current_weather(city_country: string):
+def get_current_weather(city_country: str):
     response = requests.get(
         'http://api.openweathermap.org/data/2.5/weather?q={}&appid={}&units=imperial'.format(city_country,
                                                                                              myWeatherApiKey)).json()
