@@ -1,4 +1,13 @@
-# weather-comparison
+# "Current City Weather Comparison" console app
+Description:
+To access current weather data for any location on Earth, I am using OpenWeather Api https://openweathermap.org/current
+Api call is done by city name and 2-letter country code. Example: 'http://api.openweathermap.org/data/2.5/weather?q=,FR&appid={API key}'
+For US locations, it is recomended to call by city name, state code, and country code. i.e there are 27 places named Madison in US.
+You have to specify the state in this case. Example: 'http://api.openweathermap.org/data/2.5/weather?q=Madison,IN,US&appid={API key}'
+For temperature in Fahrenheit use &units=imperial. For temperature in Celsius use &units=metric. Default is in Kelvin.
+OpenWeather uses UTC time zone for all API calls.
+You can compaire current weather in up to 5 cities at a time.
+
 Instructions:
 1. pip3 install -r requirements.txt
 2. Add your API key to keys.py. To get your API key, go to https://.org. It it FREE but you need to register.
@@ -8,7 +17,14 @@ File Descriptions
 1. main.py. Main file that you need to run.
 2. city.py. Holds CityWeather class, class method, and functions needed to print city weather information.
 3. keys.py. Add your own OpenWeather API key there.
-4. Example output from my console run
+4. example_output.txt. Example output from console run
 
 Notes
-This is a very basic program created to show what was learned in Python CodeLousiville track.
+This is a simple program created to demonstrate basic knowledge gained through Python CodeLousiville track.
+
+Below is the list of CodeLouisville Python Project Requirements that were fulfilled.
+1.Implement a "master loop" console application where the user can repeatedly enter commands/perform actions.
+2.Create a class, then create at least one object of that class and populate it with data.
+3.Create a dictionary or list, populate it with several values, retrieve at least one value, and use it in your program.
+4.Create and call at least 3 functions or methods, at least one of which must return a value that is used somewhere else in your code.
+5.Connect to an external/3rd party API and read data into your app.
