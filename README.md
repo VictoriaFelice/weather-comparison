@@ -1,8 +1,8 @@
 ## "Current City Weather Comparison" console app :sun_behind_rain_cloud:
 ### Description:
 - To access current weather data for any location on Earth, I am using OpenWeather Api https://openweathermap.org/current
-- Api call is done by city name and 2-letter country code. Example: 'http://api.openweathermap.org/data/2.5/weather?q=,FR&appid={API key}'
-- For US locations, it is recommended to call by city name, state code, and country code. i.e., there are 27 places named Madison in US.
+- Api call is done by City name and 2-letter Country code. Example: 'http://api.openweathermap.org/data/2.5/weather?q=,FR&appid={API key}'
+- For US locations, it is recommended to call by City name, State code, and Country code. i.e., there are 27 places named Madison in US.
 You have to specify the state in this case. Example: 'http://api.openweathermap.org/data/2.5/weather?q=Madison,IN,US&appid={API key}'
 - For temperature in Fahrenheit use &units=imperial. For temperature in Celsius use &units=metric. Default is in Kelvin.
 - OpenWeather uses UTC time zone for all API calls.
@@ -13,8 +13,8 @@ You have to specify the state in this case. Example: 'http://api.openweathermap.
 > python -m pip install requests
 2. Add your API key to keys.py. To get your API key, go to https://.org. It is FREE, but you need to register.
 3. Run main.py file. Enter cities in the following format, i.e.,
-   Paris,FR [City,2-letter Country Code]
-   Louisville,KY,US [City,2-letter State Code,US] -> for US locations
+   - Paris,FR
+   - Louisville,KY,US -> for US locations
 
 ### File Descriptions
 1. main.py. Main file that you need to run.
