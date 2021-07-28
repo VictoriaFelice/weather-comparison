@@ -32,4 +32,4 @@ Below is the list of CodeLouisville Python Project Requirements that were fulfil
 4. Create and call at least 3 functions or methods, at least one of which must return a value that is used somewhere else in your code.
 5. Connect to an external/3rd party API and read data into your app.
 
-**Thank you!** :sun_with_face:
+#### Thank you for reading! :sun_with_face:
