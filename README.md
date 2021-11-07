@@ -1,4 +1,5 @@
 ## "Current City Weather Comparison" console app :sun_behind_rain_cloud:
+### CodeLouisville Python Project
 ### Description:
 - To access current weather data for any location on Earth, I am using OpenWeather Api https://openweathermap.org/current
 - Api call is done by City name and 2-letter Country code. Example: 'http://api.openweathermap.org/data/2.5/weather?q=,FR&appid={API key}'
